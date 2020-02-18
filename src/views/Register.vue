@@ -120,9 +120,6 @@ export default {
     name() {
       this.$v.name.$touch();
     }
-  },
-  mounted() {
-    // console.log(this.$store.dispatch("getUsers").then(data=> console.log(data)))
   }
 }
 

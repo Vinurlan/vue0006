@@ -35,13 +35,13 @@ export default {
       let idPost = lengthPosts == 0 ? 0 : this.$store.state.post.posts[lengthPosts-1].id+1;
 
       const dataPost = {
-      "id": idPost,
-      "title": this.title,
-      "description": this.desc,
-      "claps": 0,
-      "createdAt": date,
-      "updateAt": date,
-      "userId": this.$store.state.user.id
+        "id": idPost,
+        "title": this.title,
+        "description": this.desc,
+        "claps": 0,
+        "createdAt": date,
+        "updateAt": date,
+        "userId": this.$store.state.user.id
       }
 
 

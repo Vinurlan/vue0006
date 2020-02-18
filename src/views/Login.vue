@@ -79,7 +79,9 @@ export default {
       try {
         await this.$store.dispatch("login", formData);
         this.$router.push("/");
-      } catch(e) {null;}
+      } catch(e) {
+        console.error(e);
+      }
     }
   },
   watch: {
@@ -88,11 +90,6 @@ export default {
     },
     password() {
       this.$v.password.$touch();
-    }
-  },
-  beforeMount() {
-    if (this.$store.state.user != null) {
-      this.$router.push("/")
     }
   }
 }

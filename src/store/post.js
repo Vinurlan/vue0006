@@ -2,15 +2,19 @@ export default {
   actions: {
     async addPost({commit}, dataPost) {
       try {
-        await fetch("http://localhost:3000/posts", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(dataPost),
-      })
-        .then(response => response.json())
-        .then(data => commit("setPosts", data))
+        let response = await fetch("http://localhost:3000/posts", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(dataPost),
+        })
+
+        if (response) {
+          commit("setPosts", response.json())
+        } else {
+          commit("setPosts", [])
+        }
       } catch(error) {
         throw new Error(error);
       }
