@@ -2,7 +2,12 @@
 
 ## Project setup
 ```
-npm install
+git clone https://github.com/Vinurlan/vue0006.git
+```
+
+## Project setup
+```
+npm install .
 ```
 
 ### Compiles and hot-reloads for development
