@@ -33,15 +33,14 @@ export default {
       let date = new Date();
 
       const dataPost = {
-      "id": this.post.id,
-      "title": this.title,
-      "description": this.desc,
-      "claps": this.post.claps,
-      "createdAt": this.post.date,
-      "updateAt": date,
-      "userId": this.$store.state.user.id
+        "id": this.post.id,
+        "title": this.title,
+        "description": this.desc,
+        "claps": this.post.claps,
+        "createdAt": this.post.date,
+        "updateAt": date,
+        "userId": this.$store.state.user.id
       }
-
 
       try {
         await this.$store.dispatch("editPost", dataPost);
@@ -67,72 +66,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-
-$widthForm: 800px;
-$heightForm: 600px;
-
-.postset-view {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.postset {
-  width: $widthForm;
-  height: $heightForm;
-  box-shadow: 0 0 6px 1px black;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  &__form {
-    width: $widthForm*0.8;
-    height: $heightForm*0.8;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    legend {
-      font-size: 18pt;
-      margin-bottom: 30px;
-    }
-
-    .field {
-      margin-bottom: 0;
-      margin-top: 30px;
-      width: 100%;
-    }
-
-    .textarea {
-      min-height: 50px !important;
-      background: #000;
-
-    }
-
-    .inp-desc {
-      max-height: 200px;
-    }
-
-
-    & > input{
-      margin-top: 30px;
-    }
-
-  }
-
-}
-
-.invalid {
-  color: red;
-}
-
-</style>
