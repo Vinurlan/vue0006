@@ -1,19 +1,32 @@
 <template>
   <div class="home">
     <div class="home__body" v-if="loading">
-      <b-button tag="router-link" type="is-success" to="/postset" class="btn-add-post">Добавить пост</b-button>
+      <b-pagination @change="pagHandler" v-if="visiblePagination"
+        :total="postsLength"
+        :current.sync="currPage"
+        range-before="1"
+        range-after="1"
+        :per-page="perPage"
+        aria-next-label="Next page"
+        aria-previous-label="Previous page"
+        aria-page-label="Page"
+        aria-current-label="Current page">
+      </b-pagination>
+      <b-button tag="router-link" type="is-link" to="/postset" class="btn-add-post" v-if="showButton">Добавить пост</b-button>
       <Post
-        v-for="post of posts"
+        v-for="post in currPosts"
         :key="post.id"
         :postprop="post"
         @delete="deletePost"
       />
     </div>
+
   </div>
 </template>
 
 <script>
 import Post from "@/components/Post"
+import {mapGetters, mapActions} from "vuex"
 
 export default {
   name: 'Home',
@@ -22,23 +35,45 @@ export default {
   },
   data() {
     return {
-      posts: [],
       loading: false,
+      currPage: 1,
+      perPage: 10
     }
   },
   methods: {
+    ...mapActions(["getPosts"]),
+
     async deletePost(id) {
       try {
         await this.$store.dispatch("deletePost", id);
-        this.posts = this.$store.state.posts;
       } catch(error) {
         console.error(error)
       }
     },
+    pagHandler(e) {
+      this.currPage = e;
+    }
+  },
+  computed: {
+    ...mapGetters(["allPosts"]),
+    postsLength() {
+      return this.allPosts.length;
+    },
+    visiblePagination() {
+      return this.postsLength > this.perPage;
+    },
+    currPosts() {
+      return this.allPosts.slice(this.perPage * (this.currPage - 1), this.perPage * this.currPage);
+    },
+    showButton() {
+      return this.isUserRole == "admin";
+    },
+    isUserRole() {
+      return this.$store.getters.isUserRole;
+    }
   },
   async mounted() {
-    await this.$store.dispatch("getPosts");
-    this.posts = await this.$store.state.posts;
+    await this.getPosts();
     this.loading = true;
   }
 

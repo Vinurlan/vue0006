@@ -89,6 +89,11 @@ export default {
     password() {
       this.$v.password.$touch();
     }
+  },
+  beforeMount() {
+    if (this.$store.state.user != null) {
+      this.$router.push("/")
+    }
   }
 }
 </script>

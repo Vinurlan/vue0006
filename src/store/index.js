@@ -9,7 +9,6 @@ export default new Vuex.Store({
   state: {
     error: null,
     user: null,
-    posts: [],
   },
   mutations: {
     setError(state, error) {
@@ -20,24 +19,22 @@ export default new Vuex.Store({
     },
     clearRole(state) {
       state.user = null;
-    },
-    setPosts(state, posts){
-      state.posts = posts;
     }
   },
   actions: {
-    async addClap({dispatch}, id) {
-      let newPosts = this.state.posts;
-        console.log("1", newPosts)
-      let newPost = await newPosts.find(item => item.id == id);
-        console.log("2", newPost)
-      newPost.claps += 1;
-        console.log("3", newPost)
-      await dispatch("editPost", newPost);
-    }
+
   },
   getters: {
-    error: s => s.error,
+    isUserNotUndef(state) {
+      return state.user != undefined && state.user != null
+    },
+    isUserRole(state, {isUserNotUndef}) {
+      if (isUserNotUndef == true) {
+        return state.user.role;
+      } else {
+        return false;
+      }
+    }
   },
   modules: {
     auth, post

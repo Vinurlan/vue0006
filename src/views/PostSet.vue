@@ -31,8 +31,8 @@ export default {
     async submitPost() {
       let date = new Date();
 
-      let lengthPosts = this.$store.state.posts.length;
-      let idPost = lengthPosts == 0 ? 0 : this.$store.state.posts[lengthPosts-1].id+1;
+      let lengthPosts = this.$store.state.post.posts.length;
+      let idPost = lengthPosts == 0 ? 0 : this.$store.state.post.posts[lengthPosts-1].id+1;
 
       const dataPost = {
       "id": idPost,

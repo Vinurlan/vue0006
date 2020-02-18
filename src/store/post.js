@@ -18,13 +18,13 @@ export default {
     async editPost({dispatch}, dataPost) {
       try {
         await fetch(`http://localhost:3000/posts/${dataPost.id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(dataPost),
-      })
-        await dispatch("getPosts")
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(dataPost),
+        })
+         await dispatch("getPosts");
       } catch(error) {
         throw new Error(error);
       }
@@ -33,8 +33,8 @@ export default {
       try {
         await fetch(`http://localhost:3000/posts/${id}`, {
           method: "DELETE"
-        })
-          .then(await dispatch("getPosts"))
+        });
+        await dispatch("getPosts")
       } catch(error) {
         throw new Error(error);
       }
@@ -49,6 +49,26 @@ export default {
           commit("setError", error);
           throw error;
       }
+    },
+    async addClap({dispatch}, id) {
+      let newPosts = this.state.post.posts;
+      let newPost = await newPosts.find(item => item.id == id);
+      newPost.claps += 1;
+
+      await dispatch("editPost", newPost);
+    }
+  },
+  state: {
+    posts: [],
+  },
+  getters: {
+    allPosts(state) {
+      return state.posts;
+    }
+  },
+  mutations: {
+    setPosts(state, posts) {
+      state.posts = posts;
     }
   }
 }

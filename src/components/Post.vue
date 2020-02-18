@@ -1,28 +1,26 @@
 <template>
   <div class="post">
-    <!-- <b-loading :is-full-page="false"  :can-cancel="false" v-if="!loading"></b-loading> -->
     <div class="post__content" v-if="loading">
       <div class="info-setting">
         <div class="author">User ID: {{postprop.userId}}</div>
-        <div class="author">Create: {{postprop.createdAt}}</div>
-        <div class="author">Update: {{postprop.updateAt}}</div>
         <div class="author">Post ID: {{postprop.id}}</div>
       </div>
-        <div class="content">
+      <div class="content">
         <div class="title">{{postprop.title}}</div>
         <div class="description">{{postprop.description}}</div>
       </div>
       <div class="post_footer">
-        <b-button class="claps" @click="addClapLike" v-if="showClaps">
+        <div class="time-ago">{{updateAgo}} назад</div>
+        <b-button class="claps" @click="addClapLike" v-if="showClaps" :disabled="disabled">
           <b-icon
             pack="fas"
             icon="heart"
             size="is-small">
           </b-icon>
-        <span class="claps-count">{{postprop.claps}}</span></b-button>
+        <span class="claps-count">{{getClaps}}</span></b-button>
         <div class="buttons" v-if="showButton">
-          <b-button class="buttons__edit" @click="editPost">Edit</b-button>
-          <b-button type="is-danger" class="buttons__delete" @click="deletePost">Delete</b-button>
+          <b-button class="buttons__edit" @click="editPost">Изменить</b-button>
+          <b-button type="is-danger" class="buttons__delete" @click="deletePost" :disabled="disabled">Удалить</b-button>
         </div>
       </div>
     </div>
@@ -40,31 +38,56 @@ export default {
   data() {
     return {
       loading: false,
+      idself: null,
+      disabled: false,
+      course: ""
     }
   },
   methods: {
-    deletePost() {
-      this.$emit("delete", this.postprop.id)
+    async deletePost() {
+      await this.$emit("delete", this.idself)
     },
     editPost() {
-      this.$router.push({name: "PostEdit", params: {id: this.postprop.id}});
+      this.$router.push({name: "PostEdit", params: {id: this.idself}});
     },
     async addClapLike() {
-      await this.$store.dispatch("addClap", this.postprop.id)
+      this.disabled = true;
+      await this.$store.dispatch("addClap", this.idself)
+      this.disabled = false;
     }
   },
   computed: {
     showButton() {
-      return true;
-      // console.log(this.$store.state.user.role)
-      // return this.$store.state.user.role == "admin";
+      return this.isUserRole == "admin";
     },
     showClaps() {
-      return true
-      // return this.$store.state.user.role == "user";
+      return this.isUserRole == "user";
+    },
+    getClaps() {
+      let index = this.$store.state.post.posts.findIndex(item => item.id == this.idself);
+      return this.$store.state.post.posts[index].claps;
+    },
+    isUserRole() {
+      return this.$store.getters.isUserRole;
+    },
+    updateAgo() {
+
+      var datePrev = new Date(this.postprop.updateAt);
+      let dateNow = new Date();
+      let diff = dateNow - datePrev;
+
+      let filter = Math.floor(diff/1000/60);
+
+      if (filter > 59) {
+        filter = Math.floor(diff/1000/60/60);
+        return `${filter} ч.`;
+      }
+
+      return `${filter} мин.`;
     }
   },
   mounted() {
+    this.idself = this.postprop.id;
     this.loading = true;
   },
 }
@@ -90,7 +113,14 @@ export default {
         margin: 20px;
       }
 
+    }
 
+    .content {
+      margin: 10px 20px;
+
+      .description {
+        text-align: left;
+      }
     }
   }
 
@@ -100,6 +130,15 @@ export default {
     align-items: center;
     height: 80px;
     border-top: 1px solid rgb(184, 184, 184);
+
+    .time-ago {
+      position: absolute;
+      left: 0;
+      margin-left: 30px;
+      color: #aaa;
+      align-self: center;
+      justify-self: flex-start;
+    }
 
     .claps {
       bottom: 0;

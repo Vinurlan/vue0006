@@ -54,7 +54,7 @@ export default {
 
     const idPost = this.$route.params.id;
     await this.$store.dispatch("getPosts");
-    const posts = await this.$store.state.posts;
+    const posts = await this.$store.state.post.posts;
 
     for(let post of posts) {
       if (post.id == idPost) {
