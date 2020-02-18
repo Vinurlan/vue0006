@@ -54,6 +54,9 @@
             maxlength="30"
           ></b-input>
         </b-field>
+        <div class="field">
+            <b-checkbox v-model="agree">Согласны с условиями?</b-checkbox>
+        </div>
 
         <b-button tag="input" native-type="submit" type="is-ligth" value="Отправить" />
       </form>
@@ -92,13 +95,19 @@ export default {
       }
 
       const formData = {
+        id: null,
+        name: this.name,
         email: this.email,
-        password: this.password
+        password: this.password,
+        role: "user"
       }
 
       try {
-        formData
-      } catch(e) {null;}
+        await this.$store.dispatch("register", formData);
+        this.$router.push("/");
+      } catch(e) {
+        console.error(e)
+      }
     }
   },
   watch: {
@@ -111,6 +120,9 @@ export default {
     name() {
       this.$v.name.$touch();
     }
+  },
+  mounted() {
+    // console.log(this.$store.dispatch("getUsers").then(data=> console.log(data)))
   }
 }
 
