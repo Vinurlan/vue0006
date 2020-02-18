@@ -21,6 +21,7 @@
             maxlength="30"
           ></b-input>
         </b-field>
+
         <b-field label="Password"
           label-position="on-border"
           :type="{'is-danger': ($v.password.$dirty && !$v.password.required || $v.password.$dirty && !$v.password.minLength), 'is-success': !$v.password.$invalid}"
@@ -60,11 +61,10 @@ export default {
     }
   },
   validations: {
-      email: {email, required},
-      password: {required, minLength: minLength(6)},
+    email: {email, required},
+    password: {required, minLength: minLength(6)},
   },
   methods: {
-
     async submitForm() {
       if (this.$v.$invalid) {
         this.$v.$touch();
@@ -132,9 +132,7 @@ $heightForm: 600px;
     & > input{
       margin-top: 30px;
     }
-
   }
-
 }
 
 .invalid {

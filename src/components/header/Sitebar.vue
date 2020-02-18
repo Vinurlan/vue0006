@@ -15,9 +15,9 @@
         <template slot="end" v-if="$store.state.user != null">
           <b-navbar-item>
             <b-icon
-                pack="fas"
-                icon="user"
-                size="is-medium">
+              pack="fas"
+              icon="user"
+              size="is-medium">
             </b-icon>
 
             <b-navbar-dropdown :label="$store.state.user.name">

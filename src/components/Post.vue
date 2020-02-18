@@ -20,7 +20,7 @@
         <span class="claps-count">{{getClaps}}</span></b-button>
         <div class="buttons" v-if="showButton">
           <b-button class="buttons__edit" @click="editPost">Изменить</b-button>
-          <b-button type="is-danger" class="buttons__delete" @click="deletePost" :disabled="disabled">Удалить</b-button>
+          <b-button type="is-danger" class="buttons__delete" @click="deletePost">Удалить</b-button>
         </div>
       </div>
     </div>
@@ -71,7 +71,6 @@ export default {
       return this.$store.getters.isUserRole;
     },
     updateAgo() {
-
       var datePrev = new Date(this.postprop.updateAt);
       let dateNow = new Date();
       let diff = dateNow - datePrev;
@@ -103,6 +102,7 @@ export default {
 
   &__content{
     position: relative;
+
     .info-setting {
       position: relative;
       display: flex;
@@ -163,7 +163,6 @@ export default {
         margin: auto 8px;
       }
     }
-
   }
 }
 
