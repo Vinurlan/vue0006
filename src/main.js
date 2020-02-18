@@ -9,7 +9,7 @@ import { faUserSecret } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import "./assets/styles.scss"
 import "buefy/dist/buefy.css"
-import "@fortawesome/fontawesome-free-5.12.1-web/js/all.min"
+import "./assets/fontawesome-free-5.12.1-web/js/all.min"
 
 library.add(faUserSecret)
 
